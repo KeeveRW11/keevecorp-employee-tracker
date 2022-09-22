@@ -145,14 +145,14 @@ addRole = () => {
         type: 'input', 
         name: 'salary',
         message: "What salary is being paid to this role?",
-        validate: salary => {
-          if (isNaN(salary)) {
-              return true;
+        /*validate: salary => {
+            if (isNaN(salary)) {
+                return true;
           } else {
               console.log('Please enter a valid salary figure!');
               return false;
           }
-        }
+        }*/
       },
     ])
         .then(answer => {
@@ -181,7 +181,7 @@ addRole = () => {
                             VALUES (?, ?, ?)`;
     
 
-            connection.query(sql, answer.role, (err, result) => {
+            connection.query(sql, params, (err, result) => {
             if (err) throw err;
             console.log(answer.role + " has been added " + " to roles."); 
     
