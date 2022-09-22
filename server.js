@@ -17,18 +17,17 @@ const questions = () => {
             type: 'list',
             name: 'questions',
             message: 'What would you like to do today?',
-            choices: ['View All Departments', 'View All Roles', 'View all Employees','Add A Department', 'Add A Role', 'Add An Employee', 'Update An Employee Role'],
-            pageSize: 12
+            choices: ['View All Departments', 'View All Roles', 'View All Employees','Add A Department', 'Add A Role', 'Add An Employee', 'Update An Employee Role'],
         }
     ]).then((answers) => {
         switch(answers.questions) {
-            case 'View all Departments':
+            case 'View All Departments':
                 viewDepartments();
                 break;
-            case 'View all Roles':
+            case 'View All Roles':
                 viewRoles();
                 break;
-            case 'View all Employees':
+            case 'View All Employees':
                 viewEmployees();
                 break;    
             case 'Add a Department':
@@ -49,6 +48,17 @@ const questions = () => {
                 break;    
         }
     })
+};
+// FUNCTIONS FOR VIEWING DEPARTMENTS
+viewDepartments = () => {
+    console.log('These are all the current departments');
+    const sql = `SELECT department.id AS id, department.name AS department FROM department`; 
+
+    connection.query(sql, (err, rows) => {
+      if (err) throw err;
+      console.table(rows);
+      questions();
+    });
 };
 
 connection.connect(err => {
