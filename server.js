@@ -33,7 +33,7 @@ const questions = () => {
             case 'Add A Department':
                 addDepartment();
                 break;
-            case 'Add a Role':
+            case 'Add A Role':
                 addRole();
                 break;
             case 'Add an Employee':
@@ -119,6 +119,77 @@ addDepartment = () => {
           viewDepartments();
       });
     });
+};
+
+addRole = () => {
+    console.log(`
+    =================
+    Add a New Role
+    =================
+    `);
+    inquirer.prompt([
+      {
+        type: 'input', 
+        name: 'role',
+        message: "What role do you want to add today?",
+        validate: role => {
+          if (role) {
+              return true;
+          } else {
+              console.log('Please enter a new role');
+              return false;
+          }
+        }
+      },
+      {
+        type: 'input', 
+        name: 'salary',
+        message: "What salary is being paid to this role?",
+        validate: salary => {
+          if (isNaN(salary)) {
+              return true;
+          } else {
+              console.log('Please enter a valid salary figure!');
+              return false;
+          }
+        }
+      },
+    ])
+        .then(answer => {
+            const params = [answer.role, answer.salary];
+    
+            const roleData = `SELECT name, id FROM department`; 
+    
+            connection.query(roleData, (err, data) => {
+            if (err) throw err; 
+        
+            const dept = data.map(({ name, id }) => ({ name: name, value: id }));
+    
+            inquirer.prompt([
+            {
+                type: 'list', 
+                name: 'dept',
+                message: "What department does this role belong to?",
+                choices: dept
+            }
+            ])
+                .then(deptChoice => {
+                const dept = deptChoice.dept;
+                params.push(dept);
+    
+                const sql = `INSERT INTO role (title, salary, department_id)
+                            VALUES (?, ?, ?)`;
+    
+
+            connection.query(sql, answer.role, (err, result) => {
+            if (err) throw err;
+            console.log(answer.role + " has been added " + " to roles."); 
+    
+            viewRoles();
+        });
+        });
+    })
+});
 };
 
 connection.connect(err => {
