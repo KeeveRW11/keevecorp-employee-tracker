@@ -44,7 +44,7 @@ const questions = () => {
                 break;
             case 'Quit Employee Tracker':
                 connection.end();
-                console.log('Goodbye');
+                console.log('Logged Out');
                 break;    
         }
     })
