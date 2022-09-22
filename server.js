@@ -30,7 +30,7 @@ const questions = () => {
             case 'View All Employees':
                 viewEmployees();
                 break;    
-            case 'Add a Department':
+            case 'Add A Department':
                 addDepartment();
                 break;
             case 'Add a Role':
@@ -87,8 +87,39 @@ viewEmployees = () => {
       questions();
     });
 };
-
-
+// FUNCTIONS FOR ADDING DEPARTMENTS,ROLES & EMPLOYEES
+addDepartment = () => {
+    console.log(`
+    =================
+    Add a New Department
+    =================
+    `);
+    inquirer.prompt([
+      {
+        type: 'input', 
+        name: 'department',
+        message: "What department do you want to add today?",
+        validate: department => {
+          if (department) {
+              return true;
+          } else {
+              console.log('Please enter a new department');
+              return false;
+          }
+        }
+      }
+    ])
+      .then(answer => {
+        const sql = `INSERT INTO department (name)
+                    VALUES (?)`;
+        connection.query(sql, answer.department, (err, result) => {
+          if (err) throw err;
+          console.log(answer.department + " has been added " + " to departments."); 
+  
+          viewDepartments();
+      });
+    });
+};
 
 connection.connect(err => {
     if (err) throw err;
