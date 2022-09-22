@@ -12,3 +12,11 @@ VALUES
 ('Accountant', 10000, 3), 
 ('Chief Finanical Officer', 150000, 3),
 ('Chief Compliance Officer', 90000, 4);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES 
+('Steve', 'Jobs', 2, null),
+('Jeff', 'Bezos', 1, 1),
+('Elon', 'Musk', 4, null),
+('Warren', 'Buffet', 3, 3),
+('Oprah', 'Winfrey', 5, null);
